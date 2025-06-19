@@ -1,115 +1,44 @@
-#define THUL_UART_BASE 0xE0000000
+#include <stdio.h>
+#include <stdint.h>
 
-void putchar(char);
-void exit(int);
+//__strong_reference(stdout, stdin);
+//__strong_reference(stdin, stderr);
 
-//unsigned int heapCurrent = 0x40000000;
-extern unsigned int end;
-extern unsigned int heapCurrent;
+//extern int arm32_putchar(char ch, FILE *file);
 
-void _fini() {}
-void __exidx_start() {}
-void __exidx_end() {}
-
-void __errno() {}
-
-void PUT32 ( unsigned int, unsigned int);
-
-int _isatty()
-{
-  return 0;
-}
-int _fstat()
-{
-  return 0;
+static int arm32_putchar(char ch, FILE *file) {
+    uint8_t *addr = (uint8_t*)0xE0000000;
+    *addr = ch;
+    return 0;
 }
 
 
-void uart_putc ( unsigned int c )
-{
-    PUT32(THUL_UART_BASE+0x0,c);
+void hexstring(uint32_t d) {
+    printf("%08X\r\n", d);
 }
 
-void uart_send ( unsigned int c )
-{
-    PUT32(THUL_UART_BASE+0x0,c);
+void hexstrings(uint32_t d) {
+    printf("%08X ", d);
 }
 
-void hexstring ( unsigned int d )
-{
-    //unsigned int ra;
-    unsigned int rb;
-    unsigned int rc;
+/*static int arm32_putchar(char ch, FILE *file) {
+    (void)file;
+    unsigned long result;
+    asm volatile("mov r7, #1");
+    asm volatile("mov r0, %1" : "=r"(result) : "r"(ch) : "r0");
+    asm volatile("wfi");
+    return 0;
+}*/
 
-    rb=32;
-    while(1)
-    {
-        rb-=4;
-        rc=(d>>rb)&0xF;
-        if(rc>9) rc+=0x37; else rc+=0x30;
-        uart_putc(rc);
-        if(rb==0) break;
-    }
-    uart_putc(0x0D);
-    uart_putc(0x0A);
+void uart_send(uint32_t c) {
+    arm32_putchar(c, NULL);
 }
 
-void puts(char *string)
-{
-    int index = 0;
-    while(string[index] != '\0')
-    {
-        putchar(string[index]);
-        ++index;
-    }
-}
+static FILE __stdio = FDEV_SETUP_STREAM(arm32_putchar,
+                                        NULL,
+                                        NULL,
+                                        _FDEV_SETUP_WRITE);
+FILE *const stdout = &__stdio;
+FILE *const stderr = &__stdio;
+FILE *const stdin  = &__stdio;
 
-void * _sbrk(int increment)
-{
-    heapCurrent += increment;
-    
-    if(heapCurrent >= end)
-    {
-        exit(1);
-    }
-    
-    return (void *)heapCurrent;
-}
-
-int rand(void)
-{
-    return 7;
-}
-
-int srand(void)
-{
-    return 11;
-}
-
-// Default behavior is for GCC to send printf output here
-int _write(int fd, const unsigned char *buf, int count)
-{
-    int cnt;
-    for(cnt = 0; cnt < count; ++cnt)
-    {
-        putchar(*buf);
-	++buf;
-    }
-
-    return cnt;
-}
-
-void _close()
-{
-    return;
-}
-
-void _read()
-{
-    return;
-}
-
-void _lseek()
-{
-    return;
-}
