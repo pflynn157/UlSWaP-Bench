@@ -9,7 +9,12 @@ function(set_arm32ascc_config)
     set(ARCH_LINK_DIRS "${PICOLIBC_ROOT}/lib;${GCC1}" PARENT_SCOPE)
     set(ARCH_INC_DIRS "${PICOLIBC_ROOT}/include" PARENT_SCOPE)
     
-    set(ARM_FLAGS "-nostdlib;-ffreestanding;-mthumb;-march=armv6-m;-O2;--test-mode;--ascc-build-dir=${PROJECT_BINARY_DIR};")
+    if (NOT ASCC_FLAGS)
+        message(STATUS "[ASCC] Using test mode")
+        set(ASCC_FLAGS "--test-mode")
+    endif()
+    
+    set(ARM_FLAGS "-nostdlib;-ffreestanding;-mthumb;-march=armv6-m;-O2;${ASCC_FLAGS};--ascc-build-dir=${PROJECT_BINARY_DIR};")
     set(ARCH_FLAGS "${ARM_FLAGS}" PARENT_SCOPE)
     set(ARCH_LINK_FLAGS "${ARM_FLAGS};-T${ARCH_DIR}/memmap.ld;-nostartfiles;-nostdlib" PARENT_SCOPE)
     set(ARCH_LIBS "-lgcc" PARENT_SCOPE)

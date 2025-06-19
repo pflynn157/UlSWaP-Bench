@@ -2,6 +2,7 @@ function(set_rv32ascc_config)
     message(STATUS "Setting RISC-V (ISA Simulator) configuration")
     
     set(CMAKE_SYSTEM_NAME Generic)
+    set(USE_ASCC ON PARENT_SCOPE)
     
     set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/rv32im)
     set(GCC1 /usr/lib/gcc/riscv64-unknown-elf/13.2.0/rv32im/ilp32)
@@ -10,7 +11,7 @@ function(set_rv32ascc_config)
     set(ARCH_LINK_DIRS "${PICOLIBC_ROOT}/lib;${GCC1};${GCC2}" PARENT_SCOPE)
     set(ARCH_INC_DIRS "${PICOLIBC_ROOT}/include" PARENT_SCOPE)
     
-    set(RV32_FLAGS "-nostdlib;-ffreestanding;-march=rv32im;-mabi=ilp32;-O2;--test-mode;--ascc-build-dir=${PROJECT_BINARY_DIR};")
+    set(RV32_FLAGS "-nostdlib;-ffreestanding;-march=rv32im;-mabi=ilp32;-O2;--ascc-build-dir=${PROJECT_BINARY_DIR};")
     set(ARCH_FLAGS "${RV32_FLAGS}" PARENT_SCOPE)
     set(ARCH_LINK_FLAGS "-Wl,-m,elf32lriscv;${RV32FLAGS};-T${ARCH_DIR}/memmap.ld;-nostartfiles;-nostdlib" PARENT_SCOPE)
     set(ARCH_LIBS "-lgcc" PARENT_SCOPE)
