@@ -265,7 +265,8 @@ void get_image(uint8_t **in, int32_t *x_size, int32_t *y_size)
     *in = (uint8_t *)fakeFile;
 }
 
-void put_image(uint8_t *in, int32_t x_size, int32_t y_size)
+#ifdef HOST_TEST
+/*void put_image(uint8_t *in, int32_t x_size, int32_t y_size)
 {
     FILE *fd;
 
@@ -283,7 +284,8 @@ void put_image(uint8_t *in, int32_t x_size, int32_t y_size)
     fclose(fd);
 
     printf("Output image written to %s\r\n", OUTPUT_FILE);
-}
+}*/
+#endif
 
 void int_to_uint8_t(int32_t *r, uint8_t *in, int32_t size)
 {
@@ -637,7 +639,7 @@ int32_t benchmark_main()
     (void)noprint_output;
 
 #if HOST_TEST
-    put_image(in, x_size, y_size);
+    //put_image(in, x_size, y_size);
 #endif // HOST_TEST
 
     return 0;
