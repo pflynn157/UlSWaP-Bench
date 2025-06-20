@@ -4,3 +4,13 @@ target_sources(patricia PRIVATE ${CMAKE_CURRENT_LIST_DIR}/patricia.c
 target_compile_options(patricia PRIVATE -foptimize-sibling-calls)
 
 target_link_libraries(patricia c)
+
+if (USE_ASCC)
+    target_compile_options(patricia PRIVATE
+        "-opt checkpoint,simple-flat,idempotent,outer-loop,simple-call,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+        "--unroll 512"
+        "--verbose"
+        "--mem-setup-function benchmark_main"
+    )
+endif()
+

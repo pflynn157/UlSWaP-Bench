@@ -2,3 +2,15 @@ target_sources(mp3_encode PRIVATE ${CMAKE_CURRENT_LIST_DIR}/shine_mp3.c
                                   ${CMAKE_CURRENT_LIST_DIR}/mp3_encode_test.c)
 
 target_link_libraries(mp3_encode c m)
+
+if (USE_ASCC)
+    target_compile_options(mp3_encode PRIVATE
+        "-opt ignore,checkpoint,simple-flat,simple-call,outer-loop,mem-loop-unroll,basic-checkpoint"
+        "--unroll 1028"
+        "--ignore-function count_bit.part.0"
+        "--ignore-function shine_window_filter_subband"
+        "--verbose"
+        "--mem-setup-function benchmark_main"
+    )
+endif()
+

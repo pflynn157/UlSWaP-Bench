@@ -6,3 +6,12 @@ if(NOT CMAKE_C_COMPILER MATCHES "clang")
 endif()
 
 target_link_libraries(adpcm_encode c m)
+
+if (USE_ASCC)
+    target_compile_options(adpcm_encode PRIVATE
+        "-opt ignore,checkpoint,simple-flat,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
+        "--verbose"
+        "--unroll 1024"
+    )
+endif()
+
