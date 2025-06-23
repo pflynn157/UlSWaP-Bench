@@ -2,17 +2,14 @@ function(set_arm32ascc_config)
     message(STATUS "Setting Arm (ASCC) configuration")
     
     set(CMAKE_SYSTEM_NAME Generic)
+    set(USE_ASCC ON PARENT_SCOPE)
+    set(ASCC_ARCH "ARM" PARENT_SCOPE)
     
     set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/gcc-arm32)
     set(GCC1 /usr/lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp)
     
     set(ARCH_LINK_DIRS "${PICOLIBC_ROOT}/lib;${GCC1}" PARENT_SCOPE)
     set(ARCH_INC_DIRS "${PICOLIBC_ROOT}/include" PARENT_SCOPE)
-    
-    if (NOT ASCC_FLAGS)
-        message(STATUS "[ASCC] Using test mode")
-        set(ASCC_FLAGS "--test-mode")
-    endif()
     
     set(ARM_FLAGS "-nostdlib;-ffreestanding;-mthumb;-march=armv6-m;-O2;${ASCC_FLAGS};--ascc-build-dir=${PROJECT_BINARY_DIR};")
     set(ARCH_FLAGS "${ARM_FLAGS}" PARENT_SCOPE)

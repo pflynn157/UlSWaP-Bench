@@ -8,10 +8,22 @@ target_sources(basicmath PRIVATE ${CMAKE_CURRENT_LIST_DIR}/main.c
 target_link_libraries(basicmath m c)
 
 if (USE_ASCC)
-    target_compile_options(basicmath PRIVATE
-        "-opt ignore,checkpoint,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
-        "--unroll 16"
-        "--verbose"
-        "--mem-setup-function benchmark_main"
-    )
+    if (ASCC_ARCH STREQUAL "RISCV")
+        target_compile_options(basicmath PRIVATE
+            "-opt ignore,checkpoint,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "--unroll 16"
+            "--verbose"
+            "--mem-setup-function benchmark_main"
+        )
+    elseif (ASCC_ARCH STREQUAL "ARM")
+        target_compile_options(basicmath PRIVATE
+            "-opt ignore,checkpoint,span,arm-checkpoint"
+            "--unroll 128"
+            "--ignore-function SolveCubic"
+            "--ignore-function my_srand"
+            "--ignore-function my_rand"
+            "--span 50"
+            "--verbose"
+        )
+    endif()
 endif()

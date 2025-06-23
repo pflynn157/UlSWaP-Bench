@@ -8,10 +8,18 @@ endif()
 target_link_libraries(adpcm_encode c m)
 
 if (USE_ASCC)
-    target_compile_options(adpcm_encode PRIVATE
-        "-opt ignore,checkpoint,simple-flat,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
-        "--verbose"
-        "--unroll 1024"
-    )
+    if (ASCC_ARCH STREQUAL "RISCV")
+        target_compile_options(adpcm_encode PRIVATE
+            "-opt ignore,checkpoint,simple-flat,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
+            "--verbose"
+            "--unroll 1024"
+        )
+    elseif (ASCC_ARCH STREQUAL "ARM")
+        target_compile_options(adpcm_encode PRIVATE
+            "-opt ignore,checkpoint,simple-call,outer-loop,mem-loop-unroll,arm-checkpoint"
+            "--unroll 1024"
+            "--verbose"
+        )
+    endif()
 endif()
 

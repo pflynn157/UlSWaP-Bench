@@ -12,12 +12,22 @@ target_compile_options(jpeg_encode PRIVATE -Wno-shift-negative-value)
 target_link_libraries(jpeg_encode c)
 
 if (USE_ASCC)
-    target_compile_options(jpeg_encode PRIVATE
-        "-opt ignore,checkpoint,simple-flat,outer-loop,simple-call,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
-        "--verbose"
-        "--unroll 128"
-        "--ignore-function jpec_buffer_write_byte"
-        "--mem-setup-function benchmark_main"
-    )
+    if (ASCC_ARCH STREQUAL "RISCV")
+        target_compile_options(jpeg_encode PRIVATE
+            "-opt ignore,checkpoint,simple-flat,outer-loop,simple-call,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "--verbose"
+            "--unroll 128"
+            "--ignore-function jpec_buffer_write_byte"
+            "--mem-setup-function benchmark_main"
+        )
+    elseif (ASCC_ARCH STREQUAL "ARM")
+        target_compile_options(jpeg_encode PRIVATE
+            "-opt ignore,checkpoint,span,arm-checkpoint"
+            "--unroll 128"
+            "--span 50"
+            "--ignore-function jpec_enc_run"
+            "--verbose"
+        )
+    endif()
 endif()
 
