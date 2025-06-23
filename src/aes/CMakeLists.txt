@@ -7,9 +7,10 @@ target_link_libraries(aes c)
 
 if (USE_ASCC)
     target_compile_options(aes PRIVATE
-        "-opt ignore,checkpoint,simple-flat,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,basic-checkpoint"
+        "-opt ignore,checkpoint,span,simple-flat,outer-loop,simple-call,mem-loop-unroll,live-checkpoint"
         "--verbose"
-        "--unroll 1024"
+        "--unroll 2500"
+        "--span 150"
         "--ignore-function InvCipher"
         "--mem-setup-function benchmark_main"
     )
