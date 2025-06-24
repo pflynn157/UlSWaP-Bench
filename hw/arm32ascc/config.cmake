@@ -17,7 +17,7 @@ function(set_arm32ascc_config)
     set(ARCH_LIBS "-lgcc" PARENT_SCOPE)
     
     set(CHECKPOINT_FILES
-        "${ARCH_DIR}/checkpoint.s;${ARCH_DIR}/init.c;${ARCH_DIR}/restore.s;${ARCH_DIR}/table.s"
+        "${ARCH_DIR}/checkpoint.s;${ARCH_DIR}/restore.s;${ARCH_DIR}/table.s"
     )
     
     set(ARCH_SOURCES "${ARCH_DIR}/boot.s;${ARCH_DIR}/supportFuncs.c;${CHECKPOINT_FILES}" PARENT_SCOPE)

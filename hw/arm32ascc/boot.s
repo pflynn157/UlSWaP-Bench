@@ -104,7 +104,7 @@ hang17:   b .
 .thumb_func
 .global _start
 _start:
-    bl init
+    bl restore
     bl main
     .word 0xAAFBAAFB
     

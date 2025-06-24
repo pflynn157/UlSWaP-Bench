@@ -15,9 +15,10 @@ if (USE_ASCC)
     elseif (ASCC_ARCH STREQUAL "ARM")
         target_compile_options(activity_rec PRIVATE
             "-opt ignore,checkpoint,outer-loop,simple-call,mem-loop-unroll,arm-checkpoint"
-            "--ignore-function record_stats"
+            "--mem-setup-function benchmark_main"
             "--unroll 512"
             "--verbose"
         )
+        #"-opt ignore,checkpoint,outer-loop,simple-call,mem-loop-unroll,arm-checkpoint"
     endif()
 endif()
