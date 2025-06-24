@@ -1,5 +1,5 @@
 .extern main
-.extern init
+.extern restore
 .extern _interrupt_exception
 .extern _bus_exception
 .extern _float_exception
@@ -40,7 +40,7 @@ _start:
     lui sp, %hi(_stacktop)
     addi sp, sp, %lo(_stacktop)
     
-    call init
+    call restore
     call main
     
     # Return and exit

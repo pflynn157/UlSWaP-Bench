@@ -13,12 +13,14 @@ if (USE_ASCC)
             "-opt ignore,checkpoint,simple-flat,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
             "--verbose"
             "--unroll 1024"
+            "--mem-setup-function benchmark_main"
         )
     elseif (ASCC_ARCH STREQUAL "ARM")
         target_compile_options(adpcm_encode PRIVATE
             "-opt ignore,checkpoint,simple-call,outer-loop,mem-loop-unroll,arm-checkpoint"
             "--unroll 1024"
             "--verbose"
+            "--mem-setup-function benchmark_main"
         )
     endif()
 endif()
