@@ -1,0 +1,134 @@
+	.file	"supportFuncs.c"
+	.option nopic
+	.attribute arch, "rv32i2p1_m2p0"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	2
+	.globl	riscv_putchar
+	.type	riscv_putchar, @function
+riscv_putchar:
+	li	a5,1073741824
+	sb	a0,0(a5)
+	li	a0,0
+	ret
+	.size	riscv_putchar, .-riscv_putchar
+	.section	.rodata.str1.4,"aMS",@progbits,1
+	.align	2
+.LC0:
+	.string	"Error: A general exception occurred.\n"
+	.text
+	.align	2
+	.globl	_interrupt_exception
+	.type	_interrupt_exception, @function
+_interrupt_exception:
+	lui	a0,%hi(.LC0)
+	addi	sp,sp,-16
+	addi	a0,a0,%lo(.LC0)
+	sw	ra,12(sp)
+	call	printf
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	tail	_exit
+	.size	_interrupt_exception, .-_interrupt_exception
+	.section	.rodata.str1.4
+	.align	2
+.LC1:
+	.string	"Error: A bus exception occurred.\n"
+	.text
+	.align	2
+	.globl	_bus_exception
+	.type	_bus_exception, @function
+_bus_exception:
+	lui	a0,%hi(.LC1)
+	addi	sp,sp,-16
+	addi	a0,a0,%lo(.LC1)
+	sw	ra,12(sp)
+	call	printf
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	tail	_exit
+	.size	_bus_exception, .-_bus_exception
+	.section	.rodata.str1.4
+	.align	2
+.LC2:
+	.string	"Error: Floating point exception.\n"
+	.text
+	.align	2
+	.globl	_float_exception
+	.type	_float_exception, @function
+_float_exception:
+	lui	a0,%hi(.LC2)
+	addi	sp,sp,-16
+	addi	a0,a0,%lo(.LC2)
+	sw	ra,12(sp)
+	call	printf
+	lw	ra,12(sp)
+	addi	sp,sp,16
+	tail	_exit
+	.size	_float_exception, .-_float_exception
+	.section	.rodata.str1.4
+	.align	2
+.LC3:
+	.string	"%08X\r\n"
+	.text
+	.align	2
+	.globl	hexstring
+	.type	hexstring, @function
+hexstring:
+	mv	a1,a0
+	lui	a0,%hi(.LC3)
+	addi	a0,a0,%lo(.LC3)
+	tail	printf
+	.size	hexstring, .-hexstring
+	.section	.rodata.str1.4
+	.align	2
+.LC4:
+	.string	"%08X "
+	.text
+	.align	2
+	.globl	hexstrings
+	.type	hexstrings, @function
+hexstrings:
+	mv	a1,a0
+	lui	a0,%hi(.LC4)
+	addi	a0,a0,%lo(.LC4)
+	tail	printf
+	.size	hexstrings, .-hexstrings
+	.align	2
+	.globl	uart_send
+	.type	uart_send, @function
+uart_send:
+	li	a5,1073741824
+	sb	a0,0(a5)
+	ret
+	.size	uart_send, .-uart_send
+	.globl	stdin
+	.globl	stderr
+	.globl	stdout
+	.data
+	.align	2
+	.type	__stdio, @object
+	.size	__stdio, 20
+__stdio:
+	.zero	4
+	.byte	2
+	.zero	3
+	.word	riscv_putchar
+	.word	0
+	.word	0
+	.section	.srodata,"a"
+	.align	2
+	.type	stdin, @object
+	.size	stdin, 4
+stdin:
+	.word	__stdio
+	.type	stderr, @object
+	.size	stderr, 4
+stderr:
+	.word	__stdio
+	.type	stdout, @object
+	.size	stdout, 4
+stdout:
+	.word	__stdio
+	.ident	"GCC: (13.2.0-11ubuntu1+12) 13.2.0"

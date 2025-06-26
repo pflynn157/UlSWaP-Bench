@@ -8,18 +8,18 @@ target_link_libraries(lorawan_up c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(lorawan_up PRIVATE
-            "-opt checkpoint,simple-flat,idempotent,outer-loop,simple-call,mem-loop-unroll,live-checkpoint"
-            "--unroll 512"
-            "--mem-setup-function benchmark_main"
+            "-opt" "checkpoint,simple-flat,idempotent,outer-loop,simple-call,mem-loop-unroll,live-checkpoint"
+            "--unroll" "512"
+            "--mem-setup-function" "benchmark_main"
             "--verbose"
         )
     elseif (ASCC_ARCH STREQUAL "ARM")
         target_compile_options(lorawan_up PRIVATE
-            "-opt ignore,checkpoint,span,simple-call,outer-loop,mem-loop-unroll,arm-checkpoint"
-            "--unroll 512"
-            "--span 50"
-            "--ignore-function xor_block"
-            "--ignore-function lw_cpy"
+            "-opt" "ignore,checkpoint,span,simple-call,outer-loop,mem-loop-unroll,arm-checkpoint"
+            "--unroll" "512"
+            "--span" "50"
+            "SHELL:--ignore-function xor_block"
+            "SHELL:--ignore-function lw_cpy"
             "--verbose"
         )
     endif()
