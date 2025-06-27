@@ -3,7 +3,7 @@ function(set_rv32test_config)
     
     set(CMAKE_SYSTEM_NAME Generic)
     
-    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/rv32im_ascc)
+    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/rv32im)
     set(GCC1 /usr/lib/gcc/riscv64-unknown-elf/13.2.0/rv32im/ilp32)
     set(GCC2 /usr/lib/gcc/riscv64-unknown-elf/10.2.0/rv32im/ilp32)
     
