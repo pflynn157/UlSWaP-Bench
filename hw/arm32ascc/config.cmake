@@ -5,13 +5,13 @@ function(set_arm32ascc_config)
     set(USE_ASCC ON PARENT_SCOPE)
     set(ASCC_ARCH "ARM" PARENT_SCOPE)
     
-    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/gcc-arm32)
+    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/gcc-arm32_ascc)
     set(GCC1 /usr/lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp)
     
     set(ARCH_LINK_DIRS "${PICOLIBC_ROOT}/lib;${GCC1}" PARENT_SCOPE)
     set(ARCH_INC_DIRS "${PICOLIBC_ROOT}/include" PARENT_SCOPE)
     
-    set(ARM_FLAGS "-nostdlib;-ffreestanding;-mthumb;-march=armv6-m;-O2;${ASCC_FLAGS};--ascc-build-dir=${PROJECT_BINARY_DIR};")
+    set(ARM_FLAGS "-nostdlib;-ffreestanding;-mthumb;-march=armv6-m;-O2;${ASCC_FLAGS};")
     set(ARCH_FLAGS "${ARM_FLAGS}" PARENT_SCOPE)
     set(ARCH_LINK_FLAGS "${ARM_FLAGS};-T${ARCH_DIR}/memmap.ld;-nostartfiles;-nostdlib" PARENT_SCOPE)
     set(ARCH_LIBS "-lgcc" PARENT_SCOPE)
@@ -22,8 +22,8 @@ function(set_arm32ascc_config)
     
     set(ARCH_SOURCES "${ARCH_DIR}/boot.s;${ARCH_DIR}/supportFuncs.c;${CHECKPOINT_FILES}" PARENT_SCOPE)
     
-    set(CMAKE_C_COMPILER ${ASCC_ROOT}/arm32ascc-gcc PARENT_SCOPE)
-    set(CMAKE_ASM_COMPILER ${ASCC_ROOT}/arm32ascc-gcc PARENT_SCOPE)
+    set(CMAKE_C_COMPILER arm32ascc-gcc PARENT_SCOPE)
+    set(CMAKE_ASM_COMPILER arm32ascc-gcc PARENT_SCOPE)
     set(ARCH_OBJDUMP arm-none-eabi-objdump PARENT_SCOPE)
     
     file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/hex)
