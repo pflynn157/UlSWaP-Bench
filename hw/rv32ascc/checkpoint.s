@@ -1,9 +1,8 @@
     .text
     
-    .extern CHECKPOINT_REGION
-    .extern CHECKPOINT_REGION2
-    .extern CHECKPOINT_TABLE1
-    .extern CHECKPOINT_TABLE2
+    .extern APTR
+    .extern IPTR
+    .extern TPTR
     
 ####################################################################
 ##
@@ -16,38 +15,16 @@ checkpoint:
     # Allocate the stack and save our working registers
     addi x2, x2, -16
     sw x31, 0(x2)           # Holds our table address
-    sw x30, 4(x2)           # Holds the next valid table
-    sw x29, 8(x2)           # Working register
-
-    /* Check the validity bit */
-    /*
-     * If the bit for the first table is set, check the second table
-     * T1 == 0 -> Set T1, zero T2
-     * T1 == 1 && T2 == 0 -> Set T2, zero T1
-     * if x30 == 1 -> Zero T1
-     * if x30 == 2 -> Zero T2
-     */
-    lui x31, %hi(CHECKPOINT_TABLE1)
-    addi x31, x31, %lo(CHECKPOINT_TABLE1)
-    #add x30, zero, zero
-    lw x29, 0(x31)
-    bne x29, zero, ck_set_T2
-ck_set_T1:
-    li x30, 2
-    j ck_cont
-ck_set_T2:
-    li x30, 1
-    lui x31, %hi(CHECKPOINT_TABLE2)
-    addi x31, x31, %lo(CHECKPOINT_TABLE2)
-ck_cont:
-    /* Set the validity bit == 0(x31) */
-    /* The table should be invalid until we are completely done saving it */
-    sw zero, 0(x31)
+    sw x30, 4(x2)           # Working register
+    
+    lui x31, %hi(APTR)
+    addi x31, x31, %lo(APTR)
+    lw x31, 0(x31)
     
     # Save all the registers
     sw x1, 4(x31)       # ra
-    addi x29, x2, 16
-    sw x29, 8(x31)       # sp + 16
+    addi x30, x2, 16
+    sw x30, 8(x31)       # sp + 16
     sw x3, 12(x31)
     sw x4, 16(x31)
     sw x5, 20(x31)
@@ -74,44 +51,32 @@ ck_cont:
     sw x26, 104(x31)
     sw x27, 108(x31)
     sw x28, 112(x31)
+    sw x29, 116(x31)
     
-    # Save x29, x30, and x31
-    lw x29, 0(x2)
-    sw x29, 124(x31)        # x31
-    lw x29, 4(x2)
-    sw x29, 120(x31)        # x30
-    lw x29, 8(x2)
-    sw x29, 116(x31)        # x29
+    # Save x30 and x31
+    lw x30, 0(x2)
+    sw x30, 124(x31)        # x31
+    lw x30, 4(x2)
+    sw x30, 120(x31)        # x30
     
-    # Now, we will zero out one of the checkpoint tables
-    # x30 == 1 -> Zero table 1 (we're on table 2)
-    # x30 == 2 -> Zero table 2 (we're on table 1)
-    li x29, 1
-    beq x29, x30, ck_z1
-    li x29, 2
-    beq x29, x30, ck_z2
-    j ck_done
-ck_z1:
-    lui x29, %hi(CHECKPOINT_TABLE1)
-    addi x29, x29, %lo(CHECKPOINT_TABLE1)
-    sw zero, 0(x29)
-    j ck_done
-ck_z2:
-    lui x29, %hi(CHECKPOINT_TABLE2)
-    addi x29, x29, %lo(CHECKPOINT_TABLE2)
-    sw zero, 0(x29)
-ck_done:
-
-    # Set the validity bit == 0(x31)
-    li x29, 1
-    sw x29, 0(x31)
+    # Swap the checkpoint tables
+    lui x30, %hi(PTR_BASE)
+    addi x30, x30, %lo(PTR_BASE)
+    lw x31, 0(x30)
+    sw x31, 8(x30)                      # TMP = APTR
+    lw x31, 4(x30)
+    sw x31, 0(x30)                      # APTR = IPTR
+    lw x31, 8(x30)
+    sw x31, 4(x30)                      # IPTR = TMP
     
     # Restore x29, x30, and x31, and restore the stack
     lw x31, 0(x2)
     lw x30, 4(x2)
-    lw x29, 8(x2)
     addi x2, x2, 16
     
-    /* Return */
+    # Count the checkpoint
+    ebreak
+    
+    # Return
     jalr zero, 0(ra)
     

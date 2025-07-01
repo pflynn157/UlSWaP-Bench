@@ -6,7 +6,7 @@ if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(stringsearch PRIVATE
             "-opt" "ignore,checkpoint,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
-            "--unroll" "16"
+            "--unroll" "1000"
             "--verbose"
             "SHELL:--ignore-function init_search"
             "SHELL:--ignore-function strsearch"

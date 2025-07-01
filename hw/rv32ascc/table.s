@@ -1,5 +1,19 @@
 .text
 
+.global APTR
+.global IPTR
+.global TPTR
+.global PTR_BASE
+PTR_BASE:
+    APTR: .word TABLE_A
+    IPTR: .word TABLE_B
+    TPTR: .word 0
+
+.global CHECKPOINT_TABLE1
+.global CHECKPOINT_TABLE2
+CHECKPOINT_TABLE1: .word TABLE_A
+CHECKPOINT_TABLE2: .word TABLE_B
+
 .global CHECKPOINT_UNROLL
 CHECKPOINT_UNROLL:
     s_inc: .word 0
@@ -9,9 +23,9 @@ CHECKPOINT_UNROLL:
         .word 0
         .word 0
     
-.global CHECKPOINT_TABLE1
-CHECKPOINT_TABLE1:
-    t1_valid: .word 0
+.global TABLE_A
+TABLE_A:
+    t1_x0: .word 0
     t1_x1: .word 0
     t1_x2: .word 0
     t1_x3: .word 0
@@ -49,9 +63,9 @@ CHECKPOINT_TABLE1:
         .word 0
         .word 0
 
-.global CHECKPOINT_TABLE2
-CHECKPOINT_TABLE2:
-    t2_valid: .word 0
+.global TABLE_B
+TABLE_B:
+    t2_x0: .word 0
     t2_x1: .word 0
     t2_x2: .word 0
     t2_x3: .word 0

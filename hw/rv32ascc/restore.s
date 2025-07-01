@@ -1,30 +1,24 @@
-/* Restore */
-/* To determine which table, simple look and see which table
- * has the validity bit. There will always only be one table
-   with the bit valid.
- */
-.extern CHECKPOINT_TABLE1
-.extern CHECKPOINT_TABLE2
+.extern APTR
+.extern IPTR
+.extern TPTR
 
 .global restore
 restore:
-    /* Check table 1 */
-    lui x31, %hi(CHECKPOINT_TABLE1)
-    addi x31, x31, %lo(CHECKPOINT_TABLE1)
-    lw x30, 0(x31)
-    beq x30, zero, rs_T2
-    beq x0, x0, cont
-rs_T2:
-    lui x31, %hi(CHECKPOINT_TABLE2)
-    addi x31, x31, %lo(CHECKPOINT_TABLE2)
-    lw x30, 0(x31)
-    beq x30, zero, end
-    beq x0, x0, cont
+    # See if a checkpoint has ever been taken
+    # Key- TPTR will be equal to zero if there is no valid
+    #      table.
+    lui x31, %hi(TPTR)
+    addi x31, x31, %lo(TPTR)
+    lw x31, 0(x31)
+    beq x31, x0, end
+    lui x31, %hi(IPTR)
+    addi x31, x31, %lo(IPTR)
+    lw x31, 0(x31)
+    j cont
 end:
-    li a0, 0            /* Return 0, indicating no checkpoint needed to be returned */
     jalr zero, 0(ra)
 cont:
-    /* Restore the registers */
+    # Restore everything
     lw x1, 4(x31)       # ra
     lw x2, 8(x31)       # sp
     lw x3, 12(x31)
