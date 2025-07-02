@@ -4,6 +4,34 @@
     .extern IPTR
     .extern TPTR
     
+##
+## Checkpoint sync
+## When we enter a new function, both tables should be syncronized with
+## the new functions state so we can update incrementally.
+##
+## Checkpoint
+## Sync the new table
+##
+    .global checkpoint_sync
+    .type checkpoint_sync, @function
+checkpoint_sync:
+    addi sp, sp, -16
+    sw x31, 0(sp)
+    sw x30, 4(sp)
+    
+    lui x31, %hi(APTR)
+    addi x31, x31, %lo(APTR)
+    lw x31, 0(x31)
+    
+    lui x30, %hi(IPTR)
+    addi x30, x30, %lo(IPTR)
+    lw x30, 0(x30)
+    
+    lw x31, 0(sp)
+    lw x30, 4(sp)
+    addi sp, sp, 16
+    ret
+    
 ####################################################################
 ##
 ## Global full checkpoint function

@@ -39,13 +39,13 @@ FILE *const stdin  = &__stdio;
 //__strong_reference(stdin, stderr);
 
 
-void hexstring(uint32_t d) {
+/*void hexstring(uint32_t d) {
     printf("%08X\r\n", d);
 }
 
 void hexstrings(uint32_t d) {
     printf("%08X ", d);
-}
+}*/
 
 void uart_send(uint32_t c) {
     riscv_putchar(c, NULL);
