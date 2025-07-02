@@ -16,7 +16,7 @@ SECTIONS
 {
     .vectors : ALIGN(4)
     {
-        *(.vectors)
+        KEEP(*(.vectors))
     } > ROM
     .text : ALIGN(4)
     {
