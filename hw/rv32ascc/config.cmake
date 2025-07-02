@@ -2,8 +2,8 @@ function(set_rv32ascc_config)
     message(STATUS "Setting RISC-V (ASCC) configuration")
     
     set(CMAKE_SYSTEM_NAME Generic)
-    set(USE_ASCC ON PARENT_SCOPE)
-    set(ASCC_ARCH "RISCV" PARENT_SCOPE)
+    #set(USE_ASCC ON PARENT_SCOPE)
+    #set(ASCC_ARCH "RISCV" PARENT_SCOPE)
     
     set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/rv32im_ascc)
     set(GCC1 /usr/lib/gcc/riscv64-unknown-elf/13.2.0/rv32im/ilp32)
@@ -12,8 +12,9 @@ function(set_rv32ascc_config)
     set(ARCH_LINK_DIRS "${PICOLIBC_ROOT}/lib;${GCC1};${GCC2}" PARENT_SCOPE)
     set(ARCH_INC_DIRS "${PICOLIBC_ROOT}/include" PARENT_SCOPE)
     
+    set(ASCC_FLAGS "-opt;checkpoint,simple-flat,idempotent,outer-loop,simple-loop-unroll,mem-loop-unroll,basic-checkpoint;--checkpoint-no-sync;--unroll;1000")
     set(RV32_FLAGS "-nostdlib;-ffreestanding;-march=rv32im;-mabi=ilp32;-O2;")
-    set(ARCH_FLAGS "${RV32_FLAGS}" PARENT_SCOPE)
+    set(ARCH_FLAGS "${RV32_FLAGS};${ASCC_FLAGS}" PARENT_SCOPE)
     set(ARCH_LINK_FLAGS "-Wl,-m,elf32lriscv;${RV32FLAGS};-T${ARCH_DIR}/memmap.ld;-nostartfiles;-nostdlib" PARENT_SCOPE)
     set(ARCH_LIBS "-lgcc" PARENT_SCOPE)
     

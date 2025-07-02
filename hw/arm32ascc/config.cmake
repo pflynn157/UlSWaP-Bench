@@ -5,7 +5,7 @@ function(set_arm32ascc_config)
     set(USE_ASCC ON PARENT_SCOPE)
     set(ASCC_ARCH "ARM" PARENT_SCOPE)
     
-    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/gcc-arm32_ascc)
+    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/gcc-arm32)
     set(GCC1 /usr/lib/gcc/arm-none-eabi/13.2.1/thumb/v6-m/nofp)
     
     set(ARCH_LINK_DIRS "${PICOLIBC_ROOT}/lib;${GCC1}" PARENT_SCOPE)
