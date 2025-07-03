@@ -45,7 +45,7 @@ _start:
 
 .global _exit
 _exit:
-    .word 0xABCD0013
+    .word 0x0000000B
     beq x0, x0, _exit
     
 
