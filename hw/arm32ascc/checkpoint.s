@@ -17,6 +17,7 @@ checkpoint_unroll_init:
     str r0, [r1, #0]
     bx lr
     
+.thumb_func
 .global checkpoint_maybe
 .type   checkpoint_maybe, %function
 checkpoint_maybe:
@@ -38,11 +39,13 @@ checkpoint_maybe:
     ldr r0, [r0, #8]
     mov lr, r0
     pop {r0}
+    bkpt #1
     bx lr
 cm_next:
     add r1, #1
     str r1, [r0, #0]                @ i += 1
     pop {r0, r1, r2}
+    bkpt #1
     bx lr
     
 .global checkpoint_lo_maybe
@@ -65,11 +68,13 @@ checkpoint_lo_maybe:
     ldr r0, [r0, #8]
     mov lr, r0
     pop {r0}
+    bkpt #1
     bx lr
 cm_next_lo:
     add r1, #1
     str r1, [r0, #0]                @ i += 1
     pop {r0, r1, r2}
+    bkpt #1
     bx lr
     
 ####################################################################
@@ -160,6 +165,7 @@ ck_done:
     str r1, [r0]
     
     @ Reset everything and leave
+    bkpt #1
     pop {r0, r1, r2, r3, r4, r5, r6, r7, pc}   
     
     
@@ -239,5 +245,6 @@ ck1_done:
     str r1, [r0]
     
     @ Reset everything and leave
+    bkpt #1
     pop {r0, r1, r2, r3, r4, r5, r6, r7, pc}   
     
