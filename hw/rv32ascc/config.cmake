@@ -19,9 +19,8 @@ function(set_rv32ascc_config)
     set(ARCH_LINK_DIRS "${PICOLIBC_ROOT}/lib;${GCC1};${GCC2}" PARENT_SCOPE)
     set(ARCH_INC_DIRS "${PICOLIBC_ROOT}/include" PARENT_SCOPE)
     
-    #set(ASCC_FLAGS "-opt;checkpoint,simple-flat,idempotent,outer-loop,simple-loop-unroll,mem-loop-unroll,basic-checkpoint;--checkpoint-no-sync;--unroll;1000")
     set(RV32_FLAGS "-nostdlib;-ffreestanding;-march=rv32im;-mabi=ilp32;-O2;")
-    set(ARCH_FLAGS "${RV32_FLAGS};${ASCC_FLAGS}" PARENT_SCOPE)
+    set(ARCH_FLAGS "${RV32_FLAGS};" PARENT_SCOPE)
     set(ARCH_LINK_FLAGS "-Wl,-m,elf32lriscv;${RV32FLAGS};-T${ARCH_DIR}/memmap.ld;-nostartfiles;-nostdlib" PARENT_SCOPE)
     set(ARCH_LIBS "-lgcc" PARENT_SCOPE)
     
