@@ -13,6 +13,15 @@ if (USE_ASCC)
             "--mem-setup-function" "benchmark_main"
             "--unroll" "1000"
             "--verbose"
+            #"SHELL:--ignore-function print_hexstring"
+            #"SHELL:--ignore-function hexstring"
+            #"SHELL:--ignore-function hexstrings"
+            #"SHELL:--ignore-function printf_checksum"
+            #"SHELL:--ignore-function reduce_double_precision"
+            #"SHELL:--ignore-function is_unsupported_modifier"
+            #"SHELL:--ignore-function is_modifier"
+            #"SHELL:--ignore-function add_to_checksum"
+            #"SHELL:--ignore-function get_benchmark_checksum"
         )
     elseif (ASCC_ARCH STREQUAL "ARM")
         target_compile_options(crc PRIVATE

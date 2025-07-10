@@ -11,6 +11,9 @@ if (USE_ASCC)
             "SHELL:--ignore-function featurize"
             "--verbose"
             "--mem-setup-function" "benchmark_main"
+            #"SHELL:--ignore-function print_hexstring"
+            #"SHELL:--ignore-function hexstring"
+            #"SHELL:--ignore-function hexstrings"
         )
     elseif (ASCC_ARCH STREQUAL "ARM")
         target_compile_options(activity_rec PRIVATE

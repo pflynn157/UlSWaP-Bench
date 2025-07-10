@@ -6,6 +6,7 @@
 
 //extern int arm32_putchar(char ch, FILE *file);
 
+ __attribute__((noinline))
 static int arm32_putchar(char ch, FILE *file) {
     uint8_t *addr = (uint8_t*)0xE0000000;
     *addr = ch;
@@ -13,12 +14,33 @@ static int arm32_putchar(char ch, FILE *file) {
 }
 
 
-void hexstring(uint32_t d) {
-    printf("%08X\r\n", d);
+void print_hexstring(uint32_t num)
+{
+    for (uint32_t i = sizeof(num) * 8; i > 0; i -= 4)
+    {
+        uint8_t nibble = (num >> (i - 4)) & 0xF;
+        if (nibble > 9)
+        {
+            arm32_putchar(nibble + 0x37, NULL);
+        }
+        else
+        {
+            arm32_putchar(nibble + 0x30, NULL);
+        }
+    }
 }
 
-void hexstrings(uint32_t d) {
-    printf("%08X ", d);
+void hexstring(uint32_t num)
+{
+    print_hexstring(num);
+    arm32_putchar('\r', NULL);
+    arm32_putchar('\n', NULL);
+}
+
+void hexstrings(uint32_t num)
+{
+    print_hexstring(num);
+    arm32_putchar(' ', NULL);
 }
 
 /*static int arm32_putchar(char ch, FILE *file) {
