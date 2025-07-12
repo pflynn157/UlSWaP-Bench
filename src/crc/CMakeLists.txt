@@ -25,7 +25,7 @@ if (USE_ASCC)
         )
     elseif (ASCC_ARCH STREQUAL "ARM")
         target_compile_options(crc PRIVATE
-            "-opt" "ignore,checkpoint,span,simple-call,outer-loop,simple-loop-unroll,arm-checkpoint"
+            "-opt" "ignore,checkpoint,simple-call,outer-loop,simple-loop-unroll,arm-checkpoint"
             "--verbose"
             "--unroll" "64"
             "--span" "50"
