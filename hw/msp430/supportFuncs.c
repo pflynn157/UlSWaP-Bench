@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include <stdio.h>
 #include <stddef.h>
+#include <stdint.h>
 
 static int sendByte(char byte, FILE *file);
 

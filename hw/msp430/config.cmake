@@ -1,8 +1,11 @@
 function (set_msp430_config)
     message(STATUS "Setting MSP430 configuration")
 
-    set(PICOLIBC_ROOT $ENV{HOME}/picolibc/build-msp430)
-    set(MSP430_ROOT $ENV{HOME}/ti/msp430-gcc)
+    #set(PICOLIBC_ROOT $ENV{HOME}/picolibc/build-msp430)
+    #set(MSP430_ROOT $ENV{HOME}/ti/msp430-gcc)
+    
+    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/msp430)
+    set(MSP430_ROOT /opt/msp430-gcc)
 
     set(LIB_PATH ${PICOLIBC_ROOT}/build-msp430)
     set(CC_PATH ${MSP430_ROOT}/bin)
@@ -21,4 +24,7 @@ function (set_msp430_config)
     set(ARCH_FLAGS "${GENERAL_FLAGS};${MSP430_FLAGS}" PARENT_SCOPE)
     set(ARCH_LINK_FLAGS "${GENERAL_FLAGS};${MSP430_FLAGS}" PARENT_SCOPE)
     set(ARCH_SOURCES "${ARCH_DIR}/supportFuncs.c;${ARCH_DIR}/vectors.S" PARENT_SCOPE)
+    
+    file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/hex)
+    set(ARCH_POST_COMMAND ${CC_PATH}/msp430-elf-objcopy ${PROJECT_BINARY_DIR}/bin/__BENCHMARK__.elf ${PROJECT_BINARY_DIR}/hex/__BENCHMARK__.bin -O binary PARENT_SCOPE)
 endfunction()
