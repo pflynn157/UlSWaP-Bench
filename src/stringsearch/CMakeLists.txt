@@ -8,8 +8,8 @@ if (USE_ASCC)
             "-opt" "ignore,checkpoint,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--unroll" "1000"
             "--verbose"
-            "SHELL:--ignore-function init_search"
-            "SHELL:--ignore-function strsearch"
+            #"SHELL:--ignore-function init_search"
+            #"SHELL:--ignore-function strsearch"
             "--mem-setup-function" "benchmark_main"
         )
     elseif (ASCC_ARCH STREQUAL "ARM")
@@ -17,8 +17,8 @@ if (USE_ASCC)
             "-opt" "ignore,checkpoint,simple-call,outer-loop,mem-loop-unroll,arm-checkpoint"
             "--verbose"
             "--unroll" "1000"
-            "SHELL:--ignore-function init_search"
-            "SHELL:--ignore-function strsearch"
+            #"SHELL:--ignore-function init_search"
+            #"SHELL:--ignore-function strsearch"
         )
     endif()
 endif()

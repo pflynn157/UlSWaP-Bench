@@ -11,16 +11,16 @@ if (USE_ASCC)
         target_compile_options(bitcount PRIVATE 
             "-opt" "ignore,checkpoint,span,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--mem-setup-function" "benchmark_main"
-            "--unroll" "4096"
-            "--span" "100"
+            "--unroll" "8000"
+            "--span" "50"
             "--verbose"
         )
     elseif (ASCC_ARCH STREQUAL "ARM")
         target_compile_options(bitcount PRIVATE 
             "-opt" "ignore,checkpoint,span,simple-call,outer-loop,mem-loop-unroll,arm-checkpoint"
             "--mem-setup-function" "benchmark_main"
-            "--unroll" "4096"
-            "--span" "100"
+            "--unroll" "7000"
+            "--span" "50"
             "--verbose"
         )
     endif()

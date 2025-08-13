@@ -27,6 +27,7 @@ checkpoint_unroll_init:
 .global checkpoint_maybe
 .type   checkpoint_maybe, @function
 checkpoint_maybe:
+    .word 0x5000000b
     addi sp, sp, -16
     sw x31, 0(sp)
     sw x30, 4(sp)
@@ -41,6 +42,7 @@ checkpoint_maybe:
     lw x31, 0(sp)
     lw x30, 4(sp)
     lw x29, 8(sp)
+    .word 0x5100000b
     addi sp, sp, 16
     call checkpoint
     lui x1, %hi(CHECKPOINT_UNROLL)

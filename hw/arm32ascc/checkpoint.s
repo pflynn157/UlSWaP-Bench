@@ -21,13 +21,13 @@ checkpoint_unroll_init:
 .global checkpoint_maybe
 .type   checkpoint_maybe, %function
 checkpoint_maybe:
+    bkpt #3
     push {r0, r1, r2}
     ldr r0, =CHECKPOINT_UNROLL
     ldr r1, [r0, #0]                @ i
     ldr r2, [r0, #4]                @ max
     cmp r1, r2
     blt cm_next
-    @bkpt #48
     mov r1, #0
     str r1, [r0, #0]                @ i = 0
     mov r1, lr
@@ -39,18 +39,18 @@ checkpoint_maybe:
     ldr r0, [r0, #8]
     mov lr, r0
     pop {r0}
-    bkpt #1
+    bkpt #4
     bx lr
 cm_next:
     add r1, #1
     str r1, [r0, #0]                @ i += 1
     pop {r0, r1, r2}
-    bkpt #1
     bx lr
     
 .global checkpoint_lo_maybe
 .type   checkpoint_lo_maybe, %function
 checkpoint_lo_maybe:
+    bkpt #5
     push {r0, r1, r2}
     ldr r0, =CHECKPOINT_UNROLL
     ldr r1, [r0, #0]                @ i
@@ -68,13 +68,12 @@ checkpoint_lo_maybe:
     ldr r0, [r0, #8]
     mov lr, r0
     pop {r0}
-    bkpt #1
+    bkpt #6
     bx lr
 cm_next_lo:
     add r1, #1
     str r1, [r0, #0]                @ i += 1
     pop {r0, r1, r2}
-    bkpt #1
     bx lr
     
 ####################################################################
@@ -166,6 +165,7 @@ ck_done:
     
     @ Reset everything and leave
     bkpt #1
+    bkpt #7
     pop {r0, r1, r2, r3, r4, r5, r6, r7, pc}   
     
     
@@ -246,5 +246,6 @@ ck1_done:
     
     @ Reset everything and leave
     bkpt #1
+    bkpt #2
     pop {r0, r1, r2, r3, r4, r5, r6, r7, pc}   
     
