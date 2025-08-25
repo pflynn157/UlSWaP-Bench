@@ -161,3 +161,4 @@ SECTIONS{
 }
 
 INCLUDE picolibc.ld
+
