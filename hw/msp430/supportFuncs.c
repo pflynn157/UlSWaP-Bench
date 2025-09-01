@@ -111,7 +111,7 @@ void hexstrings(uint32_t num){
 // TODO: This is temporary. Please uncomment everything above
 // once simulator development is done.
 //
-#define IO_DISPLAY 0x4
+#define IO_DISPLAY 0x40000
 
 static int sendByte(char ch, FILE *file) {
     (void)file;
