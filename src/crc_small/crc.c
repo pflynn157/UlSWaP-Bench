@@ -95,6 +95,7 @@ crc crcSlow(uint8_t const message[], uint32_t nBytes)
     crc remainder = INITIAL_REMAINDER;
     uint32_t byte;
     uint8_t bit;
+    //printf("%x|%x\n", remainder, byte);
 
     /*
      * Perform modulo-2 division, a byte at a time.
@@ -104,9 +105,9 @@ crc crcSlow(uint8_t const message[], uint32_t nBytes)
         /*
          * Bring the next byte into the remainder.
          */
-        printf("Remainder 0: %x\n", remainder);
+        //printf("Remainder 0: %x\n", remainder);
         remainder ^= (REFLECT_DATA(message[byte]) << (WIDTH - 8));
-        //printf("Remainder 1: 0x%x \n", remainder);
+        //printf("Remainder 1: %x \n", remainder);
 
         /*
          * Perform modulo-2 division, a bit at a time.
@@ -145,13 +146,16 @@ int benchmark_main(void)
     /*
      * Print the check value for the selected CRC algorithm.
      */
-    uint32_t length = strlen((char*)test);
+    //uint32_t length = strlen((char*)test);
+    uint32_t length = 9;
     //printf("Length: %i\n", length);
     uint32_t value = crcSlow(test, length);
-    printf("The crcSlow() of \"123456789\" is 0x%lx (==0xcbf43926)\n", value);
+    //uint32_t value = 0;
+    printf("The crcSlow() of \"123456789\" is 0x%x (==0xcbf43926)\n", value);
     //printf("Test 1: %x %d\n", 19, 19);
     //printf("Test %lx\n", 0xcbf43926);
     
-    return 0;
+    //return 0;
+    return value;
 }
 
