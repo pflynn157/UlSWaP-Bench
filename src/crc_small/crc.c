@@ -147,15 +147,16 @@ int benchmark_main(void)
      * Print the check value for the selected CRC algorithm.
      */
     //uint32_t length = strlen((char*)test);
-    uint32_t length = 9;
+    //uint32_t length = 9;
     //printf("Length: %i\n", length);
-    uint32_t value = crcSlow(test, length);
+    //uint32_t value = crcSlow(test, length);
     //uint32_t value = 0;
-    printf("The crcSlow() of \"123456789\" is 0x%x (==0xcbf43926)\n", value);
+    printf("In: %zu\n", 16384);
+    //printf("The crcSlow() of \"123456789\" is 0x%x (==0xcbf43926)\n", value);
     //printf("Test 1: %x %d\n", 19, 19);
     //printf("Test %lx\n", 0xcbf43926);
     
-    //return 0;
-    return value;
+    return 0;
+    //return value;
 }
 
