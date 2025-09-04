@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 static int sendByte(char byte, FILE *file);
-/*
+
 // Basic clock startup for 8MHz (max freq without FRAM wait states)
 void initClocks(void){
   // Startup clock system with max DCO setting ~8MHz
@@ -33,10 +33,10 @@ void initUart(void){
   UCA0MCTLW |= UCOS16 | UCBRF_1 | 0x4900;
   UCA0CTLW0 &= ~UCSWRST;                  // Initialize eUSCI
   UCA0IE |= UCRXIE;                       // Enable USCI_A0 RX interrupt
-}*/
+}
 
 // UART tx interrupt handler
-/*#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=EUSCI_A0_VECTOR
 __interrupt void USCI_A0_ISR(void)
 #elif defined(__GNUC__)
@@ -57,11 +57,10 @@ void __attribute__ ((interrupt(EUSCI_A0_VECTOR))) USCI_A0_ISR (void)
         case USCI_UART_UCTXCPTIFG: break;
         default: break;
     }
-}*/
+}
 
 void run_arch_startup(){
-// TODO: Uncomment
-/*
+
   // Stop watchdog
   WDTCTL = WDTPW | WDTHOLD;
 
@@ -74,7 +73,6 @@ void run_arch_startup(){
 
   // Enable interrupts
   __bis_SR_register(GIE);
-*/
 }
 
 void print_hexstring(uint32_t num){
@@ -100,24 +98,11 @@ void hexstrings(uint32_t num){
 }
 
 // Set up handles for picolibc stdout
-/*static int sendByte(char byte, FILE *file){
+static int sendByte(char byte, FILE *file){
   (void) file;
   while(!(UCA0IFG&UCTXIFG));
   UCA0TXBUF = byte;
   return byte;
-}*/
-
-//
-// TODO: This is temporary. Please uncomment everything above
-// once simulator development is done.
-//
-#define IO_DISPLAY 0xFF00
-
-static int sendByte(char ch, FILE *file) {
-    (void)file;
-    uint8_t *addr = (uint8_t*)IO_DISPLAY;
-    *addr = ch;
-    return 0;
 }
 
 static FILE __stdio = FDEV_SETUP_STREAM(sendByte, NULL, NULL, _FDEV_SETUP_WRITE);

@@ -1,8 +1,11 @@
 function (set_msp430_config)
     message(STATUS "Setting MSP430 configuration")
 
-    set(PICOLIBC_ROOT $ENV{HOME}/picolibc/build-msp430)
-    set(MSP430_ROOT $ENV{HOME}/ti/msp430-gcc)
+    #set(PICOLIBC_ROOT $ENV{HOME}/picolibc/build-msp430)
+    #set(MSP430_ROOT $ENV{HOME}/ti/msp430-gcc)
+    
+    set(PICOLIBC_ROOT ${SYSROOT}/picolibc/picolibc/msp430)
+    set(MSP430_ROOT /opt/msp430-gcc)
 
     set(LIB_PATH ${PICOLIBC_ROOT}/build-msp430)
     set(CC_PATH ${MSP430_ROOT}/bin)
@@ -10,8 +13,8 @@ function (set_msp430_config)
     set(CMAKE_C_COMPILER ${CC_PATH}/msp430-elf-gcc PARENT_SCOPE)
     set(CMAKE_ASM_COMPILER ${CC_PATH}/msp430-elf-gcc PARENT_SCOPE)
 
-    set(GENERAL_FLAGS "-Wall;-fno-builtin;-ffreestanding;-fno-optimize-sibling-calls;-fno-builtin-fma;-ffp-contract=off;-ffunction-sections;-g")
-    set(MSP430_FLAGS "-mlarge;-mdata-region=upper;-mmcu=msp430fr5994;-mhwmult=none;-specs=${PICOLIBC_ROOT}/picolibc.specs;-T${ARCH_DIR}/memmap.ld;-DCUSTOM_ARCH_STARTUP;-Wl,--gc-sections")
+    set(GENERAL_FLAGS "-Wall;-fno-builtin;-ffreestanding;-fno-optimize-sibling-calls;-fno-builtin-fma;-ffp-contract=off;-ffunction-sections;-nostdlib")
+    set(MSP430_FLAGS "-mlarge;-mdata-region=upper;-mmcu=msp430fr5994;-mhwmult=none;-specs=${PICOLIBC_ROOT}/picolibc.specs;-T${ARCH_DIR}/memmap.ld;-DCUSTOM_ARCH_STARTUP;-Wl,--gc-sections;-O0")
 
     set(ARCH_OBJDUMP "${CC_PATH}/msp430-elf-objdump" PARENT_SCOPE)
 
@@ -19,6 +22,10 @@ function (set_msp430_config)
     set(ARCH_INC_DIRS "${MSP430_ROOT}/include" PARENT_SCOPE)
 
     set(ARCH_FLAGS "${GENERAL_FLAGS};${MSP430_FLAGS}" PARENT_SCOPE)
-    set(ARCH_LINK_FLAGS "${GENERAL_FLAGS};${MSP430_FLAGS}" PARENT_SCOPE)
-    set(ARCH_SOURCES "${ARCH_DIR}/supportFuncs.c;${ARCH_DIR}/vectors.S" PARENT_SCOPE)
+    set(ARCH_LINK_FLAGS "${GENERAL_FLAGS};${MSP430_FLAGS};-nostartfiles;-nostdlib" PARENT_SCOPE)
+    set(ARCH_SOURCES "${ARCH_DIR}/boot.s;${ARCH_DIR}/supportFuncs.c;" PARENT_SCOPE)
+    set(ARCH_LIBS "-lgcc;-lmul_32;-lc" PARENT_SCOPE)
+    
+    file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/hex)
+    set(ARCH_POST_COMMAND ${CC_PATH}/msp430-elf-objcopy ${PROJECT_BINARY_DIR}/bin/__BENCHMARK__.elf ${PROJECT_BINARY_DIR}/hex/__BENCHMARK__.bin -O binary PARENT_SCOPE)
 endfunction()
