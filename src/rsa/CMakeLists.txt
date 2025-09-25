@@ -7,7 +7,7 @@ target_link_libraries(rsa c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(rsa PRIVATE
-            "-opt" "ignore,checkpoint,simple-flat,simple-loop-unroll,mem-loop-unroll,basic-checkpoint"
+            "-opt" "ignore,checkpoint,riscv-ra,simple-loop-unroll,mem-loop-unroll,basic-checkpoint"
             "--unroll" "8192"
             "SHELL:--ignore-function bignum_init"
             "SHELL:--ignore-function bignum_mul"

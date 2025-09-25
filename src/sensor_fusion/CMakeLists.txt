@@ -5,7 +5,7 @@ target_link_libraries(sensor_fusion c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(sensor_fusion PRIVATE 
-            "-opt" "ignore,checkpoint,span,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "-opt" "ignore,checkpoint,span,riscv-ra,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--mem-setup-function" "benchmark_main"
             "--unroll" "128"
             "--verbose"

@@ -14,7 +14,7 @@ target_link_libraries(jpeg_encode c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(jpeg_encode PRIVATE
-            "-opt" "ignore,checkpoint,simple-flat,outer-loop,simple-call,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "-opt" "ignore,checkpoint,riscv-ra,outer-loop,simple-call,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--verbose"
             "--unroll" "128"
             "--ignore-function" "jpec_buffer_write_byte"

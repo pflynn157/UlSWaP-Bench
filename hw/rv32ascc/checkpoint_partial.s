@@ -23,11 +23,11 @@ checkpoint_init:
     lui x31, %hi(APTR)
     addi x31, x31, %lo(APTR)
     lw x31, 0(x31)
-    .word 0x3100000b
+    #.word 0x3100000b
     jalr zero, 0(ra)
 
 checkpoint_final:
-    .word 0x3200000b
+    #.word 0x3200000b
     # Save the next PC and the SP
     addi x30, x2, 16
     sw x30, 8(x31)       # sp + 16
@@ -55,7 +55,7 @@ checkpoint_final:
     addi x2, x2, 16
     
     # Count the checkpoint
-    .word 0x3000000b
+    #.word 0x3000000b
     
     # Return
     jalr zero, 0(ra)

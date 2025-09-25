@@ -6,7 +6,7 @@ target_link_libraries(lzfx_decomp c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(lzfx_decomp PRIVATE
-            "-opt" "checkpoint,simple-flat,outer-loop,idempotent,simple-call,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "-opt" "checkpoint,riscv-ra,outer-loop,idempotent,simple-call,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--unroll" "4096"
             "--verbose"
             "--mem-setup-function" "benchmark_main"

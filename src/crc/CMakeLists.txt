@@ -6,10 +6,10 @@ target_link_libraries(crc c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         #target_compile_options(crc PRIVATE
-        #    "-opt" "checkpoint,simple-flat,live-checkpoint"
+        #    "-opt" "checkpoint,riscv-ra,live-checkpoint"
         #)
         target_compile_options(crc PRIVATE 
-            "-opt" "ignore,checkpoint,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "-opt" "ignore,checkpoint,riscv-ra,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--mem-setup-function" "benchmark_main"
             "--unroll" "2000"
             "--verbose"

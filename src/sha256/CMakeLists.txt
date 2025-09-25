@@ -6,7 +6,7 @@ target_link_libraries(sha256 c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(sha256 PRIVATE
-            "-opt" "checkpoint,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
+            "-opt" "checkpoint,riscv-ra,idempotent,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
             "--unroll" "8"
             "--verbose"
         )

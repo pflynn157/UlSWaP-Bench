@@ -7,7 +7,7 @@ target_link_libraries(fft c m)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(fft PRIVATE
-           "-opt" "ignore,checkpoint,simple-flat,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+           "-opt" "ignore,checkpoint,riscv-ra,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
            "--verbose"
            "--unroll" "4096"
            "SHELL:--ignore-function NumberOfBitsNeeded"

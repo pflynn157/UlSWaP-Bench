@@ -9,7 +9,7 @@ target_link_libraries(lorawan_down c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(lorawan_down PRIVATE
-            "-opt" "checkpoint,simple-flat,idempotent,outer-loop,simple-call,mem-loop-unroll,live-checkpoint"
+            "-opt" "checkpoint,riscv-ra,idempotent,outer-loop,simple-call,mem-loop-unroll,live-checkpoint"
             "--unroll" "512"
             "--verbose"
             "--mem-setup-function" "benchmark_main"

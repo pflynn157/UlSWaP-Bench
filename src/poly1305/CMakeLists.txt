@@ -6,7 +6,7 @@ target_link_libraries(poly1305 c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(poly1305 PRIVATE
-            "-opt" "checkpoint,simple-flat,outer-loop,simple-call,mem-loop-unroll,basic-checkpoint"
+            "-opt" "checkpoint,riscv-ra,outer-loop,simple-call,mem-loop-unroll,basic-checkpoint"
             "--unroll" "32"
             "--verbose"
             "--mem-setup-function" "benchmark_main"

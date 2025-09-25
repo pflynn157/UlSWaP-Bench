@@ -5,7 +5,7 @@ target_link_libraries(stringsearch c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(stringsearch PRIVATE
-            "-opt" "ignore,checkpoint,simple-flat,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "-opt" "ignore,checkpoint,riscv-ra,idempotent,simple-call,outer-loop,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--unroll" "1000"
             "--verbose"
             #"SHELL:--ignore-function init_search"

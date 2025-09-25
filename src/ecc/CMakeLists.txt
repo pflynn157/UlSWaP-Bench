@@ -8,7 +8,7 @@ target_link_libraries(ecc c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(ecc PRIVATE
-            "-opt" "ignore,checkpoint,simple-flat,simple-call,outer-loop,mem-loop-unroll,live-checkpoint"
+            "-opt" "ignore,checkpoint,riscv-ra,simple-call,outer-loop,mem-loop-unroll,live-checkpoint"
             "--unroll" "4096"
             "--ignore-function" "gf2point_is_zero"
             "--verbose"

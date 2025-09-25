@@ -103,7 +103,7 @@ checkpoint:
     addi x2, x2, 16
     
     # Count the checkpoint
-    .word 0x2000000b
+    #.word 0x2000000b
     
     # Return
     jalr zero, 0(ra)

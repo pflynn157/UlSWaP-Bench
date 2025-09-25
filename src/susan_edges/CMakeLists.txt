@@ -7,7 +7,7 @@ target_link_libraries(susan_edges c m)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(susan_edges PRIVATE
-            "-opt" "checkpoint,simple-flat,outer-loop,simple-call,idempotent,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
+            "-opt" "checkpoint,riscv-ra,outer-loop,simple-call,idempotent,simple-loop-unroll,mem-loop-unroll,live-checkpoint"
             "--unroll" "64"
             "--verbose"
             "--mem-setup-function" "benchmark_main"

@@ -10,7 +10,7 @@ target_link_libraries(adpcm_encode c m)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(adpcm_encode PRIVATE
-            "-opt" "ignore,checkpoint,simple-flat,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
+            "-opt" "ignore,checkpoint,riscv-ra,simple-call,outer-loop,simple-loop-unroll,live-checkpoint"
             "--verbose"
             "--unroll" "1024"
             "--mem-setup-function" "benchmark_main"

@@ -8,7 +8,7 @@ target_link_libraries(aes c)
 if (USE_ASCC)
     if (ASCC_ARCH STREQUAL "RISCV")
         target_compile_options(aes PRIVATE
-            "-opt" "ignore,checkpoint,simple-flat,outer-loop,simple-call,mem-loop-unroll,basic-checkpoint"
+            "-opt" "ignore,checkpoint,riscv-ra,outer-loop,simple-call,mem-loop-unroll,basic-checkpoint"
             "--verbose"
             "--unroll" "2500"
             "--ignore-function" "InvCipher"
